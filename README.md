@@ -1,4 +1,4 @@
-# adventOfCode2022
+# adventOfCode2023
 Advent of Code 2023 - in vanilla JS
 
 https://adventofcode.com/2023/
