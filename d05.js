@@ -42,7 +42,6 @@ function applyRules(nb) {
         nb = converted
         break;
       }
-
     }
   }
   return nb;
