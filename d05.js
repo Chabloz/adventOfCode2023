@@ -78,21 +78,22 @@ function applyRulesRange(range) {
             max: intersection.max + rule.toAdd,
           });
         }
-        if (lastRule) {
-          if (rule.range.min > lastRule.range.max + 1) {
-            const interval = {min: lastRule.range.max + 1, max: rule.range.min - 1};
-            const intersection = getIntersection(range, interval);            ;
-            if (intersection) nextRanges.push(intersection);
-          }
+        // inner non overlapping range
+        if (lastRule && rule.range.min > lastRule.range.max + 1) {
+          const interval = {min: lastRule.range.max + 1, max: rule.range.min - 1};
+          const intersection = getIntersection(range, interval);
+          if (intersection) nextRanges.push(intersection);
         }
         lastRule = rule;
       }
+      // lower non overlapping range
       if (range.min < categories[catInd][0].range.min) {
         nextRanges.push({
           min: range.min,
           max: Math.min(categories[catInd][0].range.min - 1, range.max),
         });
       }
+      // upper non overlapping range
       if (range.max > categories[catInd][categories[catInd].length - 1].range.max) {
         nextRanges.push({
           min: Math.max(range.min, categories[catInd][categories[catInd].length - 1].range.max + 1),
