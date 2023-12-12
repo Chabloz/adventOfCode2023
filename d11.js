@@ -33,17 +33,17 @@ function getIndOfEmptyCols(matrix) {
   return colSet;
 }
 
-function getManhattanDist(cell1, cell2, rowSet, colSet, emptyCost = 1) {
+function getManhattanDist(cell1, cell2, emptyRowSet, emptyColSet, emptyCost = 1) {
   const colMin = Math.min(cell1.col, cell2.col);
   const colMax = Math.max(cell1.col, cell2.col);
   const rowMin = Math.min(cell1.row, cell2.row);
   const rowMax = Math.max(cell1.row, cell2.row);
   let counterEmptySpace = 0;
   for (let i = colMin; i <= colMax; i++) {
-    if (colSet.has(i)) counterEmptySpace++;
+    if (emptyColSet.has(i)) counterEmptySpace++;
   }
   for (let i = rowMin; i <= rowMax; i++) {
-    if (rowSet.has(i)) counterEmptySpace++;
+    if (emptyRowSet.has(i)) counterEmptySpace++;
   }
   return (colMax - colMin) + (rowMax - rowMin) + counterEmptySpace * emptyCost;
 }
@@ -59,21 +59,21 @@ function getGalaxiesPositions(matrix) {
 }
 
 const matrix = inputToSkyMap(input);
-const rowSet = getIndOfEmptyRows(matrix);
-const colSet = getIndOfEmptyCols(matrix);
+const emptyRowSet = getIndOfEmptyRows(matrix);
+const emptyColSet = getIndOfEmptyCols(matrix);
 const positions = getGalaxiesPositions(matrix);
 const allPairs = positions.flatMap((pos1, i) => positions.slice(i + 1).map(pos2 => [pos1, pos2]));
 
 // part 1
 let sum = 0;
 for (const [p1, p2] of allPairs) {
-  sum += getManhattanDist(p1, p2, rowSet, colSet);
+  sum += getManhattanDist(p1, p2, emptyRowSet, emptyColSet);
 }
 console.log(sum);
 
 // part 2
 let sump2 = 0;
 for (const [p1, p2] of allPairs) {
-  sump2 += getManhattanDist(p1, p2, rowSet, colSet, 999999);
+  sump2 += getManhattanDist(p1, p2, emptyRowSet, emptyColSet, 999999);
 }
 console.log(sump2);
