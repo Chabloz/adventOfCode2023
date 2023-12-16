@@ -124,8 +124,6 @@ function tileNeighborsP2(tile, matrix) {
 // Breadth First Search BFS
 function bfs(row, col, matrix) {
   const flowMap = new Map();
-  // The flowMap is a map of coord to the coord of the next tile to go to
-  // The frontier will store the cells who needs to be visited
   const frontier = [];
   frontier.push({row, col});
   flowMap.set(`${row}:${col}`, {row, col});
