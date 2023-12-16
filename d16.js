@@ -84,12 +84,12 @@ function bfs(row, col, dir, matrix) {
   const visited = new Set();
   const energized = new Set();
   const frontier = [];
-  let cur = {row, col, dir}
+  const cur = {row, col, dir};
   frontier.push(cur);
   visited.add(key(cur));
 
   while (frontier.length > 0) {
-    let cur = frontier.shift();
+    const cur = frontier.shift();
     // set the tile as energized
     energized.add(key({...cur, dir: 0}));
     const nextDirections = getNextDirections(cur.dir, matrix[cur.row][cur.col].value);
@@ -121,7 +121,6 @@ for (let row = 0; row < matrix.length; row++) {
   maxCountEnergized = Math.max(maxCountEnergized, bfs(row, 0, RIGHT, matrix));
   // last column
   maxCountEnergized = Math.max(maxCountEnergized, bfs(row, matrix[0].length - 1, LEFT, matrix));
-
 }
 console.log(maxCountEnergized);
 
