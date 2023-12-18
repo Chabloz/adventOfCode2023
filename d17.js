@@ -40,7 +40,7 @@ function getDirBetween(cell1, cell2) {
   return UP;
 }
 
-function getDestinations(cur, part2 = false, finalDest) {
+function getDestinations(cur, part2 = false) {
   // get von Neaumann neighborhood
   const destinations = [
     {row: cur.cell.row - 1, col: cur.cell.col},
@@ -86,7 +86,7 @@ function dijkstra(start, dest, part2 = false) {
       possibleCosts.push(finalCost);
     };
     const curKey = key(cur.cell, cur.dir, cur.sameDirCount);
-    const destinations = getDestinations(cur, part2, dest);
+    const destinations = getDestinations(cur, part2);
     for (const dest of destinations) {
       const dir = getDirBetween(cur.cell, dest);
       const sameDirCount = dir === cur.dir ? cur.sameDirCount + 1 : 1;
