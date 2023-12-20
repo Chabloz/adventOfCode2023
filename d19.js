@@ -78,13 +78,12 @@ while(queue.length > 0) {
     const nextPart = { ...curPart, workflow: dest};
     if (op == '<') {
       nextPart[`${cat}Max`] = Math.min(nextPart[`${cat}Max`], value - 1);
-      queue.push(nextPart);
       curPart[`${cat}Min`] = Math.max(curPart[`${cat}Min`], nextPart[`${cat}Max`] + 1);
     } else {
       nextPart[`${cat}Min`] = Math.max(nextPart[`${cat}Min`], value + 1);
-      queue.push(nextPart);
       curPart[`${cat}Max`] = Math.min(curPart[`${cat}Max`], nextPart[`${cat}Min`] - 1);
     }
+    queue.push(nextPart);
   }
 }
 console.log(combinations);
