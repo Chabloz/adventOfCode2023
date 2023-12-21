@@ -1,4 +1,7 @@
 const input = `%cg -> mt, hb\n%sp -> xm\n%nr -> hf, mt\nbroadcaster -> tl, gd, zb, gc\n&qz -> qn\n%df -> hd\n%vg -> rm, kx\n%gm -> mt, md\n%ls -> hc\n%lq -> zq, fx\n&zd -> bz, kg, zb, lf, sq, zk, jx\n%lz -> mt\n%sq -> zk\n%zn -> kx, tc\n&zq -> mb, hc, qz, ql, tl, ls\n&mt -> zm, tt, mh, gd, md\n%lm -> mb, zq\n%hf -> mt, sm\n%hb -> mh, mt\n%rm -> kx\n%gc -> kx, sp\n&cq -> qn\n%mh -> jt\n%zm -> nr\n%xm -> kx, ld\n&jx -> qn\n&qn -> rx\n%mp -> qt, kx\n%zk -> vj\n%hd -> mp, kx\n%tl -> zq, hl\n%zb -> zd, ph\n%cl -> zd\n&tt -> qn\n%ld -> zn\n%js -> lq, zq\n%sm -> mt, lz\n%qt -> vg, kx\n%md -> cg\n%vj -> bz, zd\n%qs -> zd, fs\n%mb -> ps\n&kx -> cq, gc, sp, df, ld\n%hc -> lm\n%tc -> df, kx\n%ps -> js, zq\n%fs -> qc, zd\n%hl -> jj, zq\n%bz -> qs\n%jj -> zq, ql\n%ql -> ls\n%ph -> kg, zd\n%qc -> cl, zd\n%lf -> sq\n%kg -> lf\n%fx -> zq\n%jt -> zm, mt\n%gd -> gm, mt`;
+
+let part2EndModuleName;
+
 function inputToModules(input) {
   const modules = new Map();
   const lines = input.split('\n');
@@ -14,6 +17,7 @@ function inputToModules(input) {
     if (type == FLIPFLOP) module.isOff = true;
     if (type == CONJUNCTION) module.memory = new Map();
     if (type == CONJUNCTION) module.nextMemory = new Map();
+    if (destinations.includes('rx')) part2EndModuleName = name;
     modules.set(name, module);
   };
   return modules;
@@ -23,13 +27,14 @@ function setInitialConjunctionModuleMemory(modules) {
   for (const {name, destinations} of modules.values()) {
     for (const dest of destinations) {
       const destModule = modules.get(dest);
-      if (!destModule || destModule.type != CONJUNCTION) continue;
+      if (!destModule) continue;
+      if (destModule.type != CONJUNCTION) continue;
       destModule.memory.set(name, LOW_PULSE);
     }
   }
 }
 
-function pulses(modules, isPart2 = false) {
+function pulses(modules, isPart2 = false, btnPressedNTimes = 1) {
   countLow++;
   const queue = [];
   queue.push(['button', 'broadcaster', LOW_PULSE]);
@@ -61,8 +66,8 @@ function pulses(modules, isPart2 = false) {
       module.memory.set(fromName, curPulse);
       const hasOnlyHighPulse = [...module.memory.values()].every(signal => signal == HIGH_PULSE);
       const nextPulse = hasOnlyHighPulse ? LOW_PULSE : HIGH_PULSE;
-      if (isPart2 && nextPulse == HIGH_PULSE && module.destinations.includes('qn')) {
-        return false;
+      if (isPart2 && parentsName.has(module.name) && !parentsState.has(module.name) && nextPulse == HIGH_PULSE) {
+        parentsState.set(module.name, btnPressedNTimes);
       }
       for (const dest of module.destinations) {
         nextPulse == LOW_PULSE ? countLow++ : countHigh++;
@@ -88,4 +93,33 @@ for (let nbPush = 0; nbPush < 1000; nbPush++) {
 console.log(countLow * countHigh);
 
 // part 2
-// todo
+function getLeastCommonMultipleOfEachNumbers(...numbers) {
+  let lcm = 1;
+  for (const number of numbers) {
+    lcm = getLeastCommonMultiple(lcm, number);
+  }
+  return lcm;
+}
+
+function getLeastCommonMultiple(a, b) {
+  return (a * b) / greatestCommonDivisor(a,b);
+}
+
+function greatestCommonDivisor(a, b) {
+  if (b == 0) return a;
+  const r = a % b;
+  return greatestCommonDivisor(b, r);
+}
+
+modules = inputToModules(input);
+setInitialConjunctionModuleMemory(modules);
+const parentsName = new Set([...modules.get(part2EndModuleName).memory.keys()]);
+const parentsState = new Map();
+let nbPush = 1;
+while (true) {
+  pulses(modules, true, nbPush);
+  if (parentsName.size == parentsState.size) break;
+  nbPush++;
+}
+const lcm = getLeastCommonMultipleOfEachNumbers(...parentsState.values());
+console.log(lcm);
