@@ -16,7 +16,6 @@ function inputToModules(input) {
     if (type == BROADCASTER) module.signal = LOW_PULSE;
     if (type == FLIPFLOP) module.isOff = true;
     if (type == CONJUNCTION) module.memory = new Map();
-    if (type == CONJUNCTION) module.nextMemory = new Map();
     if (destinations.includes('rx')) part2EndModuleName = name;
     modules.set(name, module);
   };
