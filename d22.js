@@ -69,14 +69,7 @@ for (const brick of bricks) {
 let countDisintegrable = 0;
 for (const brick of bricks) {
   // for every above brick, check if it has at least one different support brick
-  let canDisintegrate = true;
-  for (const aboveBrick of brick.above) {
-    if (aboveBrick.below.size == 1) {
-      canDisintegrate = false;
-      break;
-    }
-  }
-  if (canDisintegrate) countDisintegrable++;
+  if ([...brick.above].every(b => b.below.size > 1)) countDisintegrable++;
 }
 console.log(countDisintegrable);
 
@@ -90,7 +83,8 @@ for (const brick of bricks) {
     for (const goneBrick of hasFall) {
       for(const otherBrick of goneBrick.above){
         if (hasFall.has(otherBrick)) continue;
-        if([...otherBrick.below].every(b => hasFall.has(b))){
+        // Can fall if all bricks below have already fallen
+        if ([...otherBrick.below].every(b => hasFall.has(b))) {
           hasFall.add(otherBrick);
           atLeastOneFall = true;
         }
