@@ -73,18 +73,20 @@ console.log(getCount(cameFrom));
 
 // part 2
 /**
- * Lagrange's Interpolation formula for ax^2 + bx + c with x=[0,1,2] and y=[y0,y1,y2] we have
- *   f(x) = (x^2-3x+2) * y0/2 - (x^2-2x)*y1 + (x^2-x) * y2/2
+ * Lagrange's Interpolation formula for
+ * ax ^ 2 + bx + c with x = [0,1,2] and y = [y0,y1,y2] we have
+ * f(x) = (x^2 - 3x + 2) * y0 / 2 - (x^2 - 2x) * y1 + (x^2 - x) * y2 / 2
+ *
  * so the coefficients are:
- * a = y0/2 - y1 + y2/2
- * b = -3*y0/2 + 2*y1 - y2/2
+ * a = y0 / 2 - y1 + y2 / 2
+ * b = -3 * y0 / 2 + 2 * y1 - y2 / 2
  * c = y0
  */
-function  lagrangeInterpolation(nb1, nb2, nb3) {
+function  lagrangeInterpolation(y0, y1, y2) {
   return {
-    a: nb1 / 2 - nb2 + nb3 / 2,
-    b: -3 * (nb1 / 2) + 2 * nb2 - nb3 / 2,
-    c: nb1,
+    a: y0 / 2 - y1 + y2 / 2,
+    b: -3 * (y0 / 2) + 2 * y1 - y2 / 2,
+    c: y0,
   };
 };
 
