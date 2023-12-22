@@ -93,6 +93,6 @@ function  lagrangeInterpolation(nb1, nb2, nb3) {
 const countMap = getCount(bfs(elfPos.row, elfPos.col, matrix, 65), true);
 const countMapAround = getCount(bfs(elfPos.row, elfPos.col, matrix, 65 + 131), false);
 const countMapAroundAround = getCount(bfs(elfPos.row, elfPos.col, matrix, 65 + (131 * 2)), true);
-const lagrange = lagrangeInterpolation(countMap, countMapAround, countMapAroundAround);
+const {a, b, c} = lagrangeInterpolation(countMap, countMapAround, countMapAroundAround);
 const target = (26501365 - 65) / 131;
-console.log(lagrange.a * target ** 2 + lagrange.b * target + lagrange.c);
+console.log(a * target ** 2 + b * target + c);
