@@ -79,3 +79,25 @@ for (const brick of bricks) {
   if (canDisintegrate) countDisintegrable++;
 }
 console.log(countDisintegrable);
+
+// part 2
+let totalFall = 0;
+for (const brick of bricks) {
+  let hasFall = new Set([brick]);
+  let atLeastOneFall = true;
+  while (atLeastOneFall) {
+    atLeastOneFall = false;
+    for (const goneBrick of hasFall) {
+      for(const otherBrick of goneBrick.above){
+        if (hasFall.has(otherBrick)) continue;
+        if([...otherBrick.below].every(b => hasFall.has(b))){
+          hasFall.add(otherBrick);
+          atLeastOneFall = true;
+        }
+      }
+    }
+  }
+  totalFall += hasFall.size - 1; // we substract the desintaegrated brick
+}
+
+console.log(totalFall);
