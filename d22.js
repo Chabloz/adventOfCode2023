@@ -80,8 +80,8 @@ for (const brick of bricks) {
   let atLeastOneFall = true;
   while (atLeastOneFall) {
     atLeastOneFall = false;
-    for (const hasFallenBrick of hasFall) {
-      for(const otherBrick of hasFallenBrick.above){
+    for (const hasFallBrick of hasFall) {
+      for(const otherBrick of hasFallBrick.above){
         if (hasFall.has(otherBrick)) continue;
         // Can fall if all bricks below have already fallen
         if ([...otherBrick.below].every(b => hasFall.has(b))) {
