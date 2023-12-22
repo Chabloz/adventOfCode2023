@@ -97,7 +97,7 @@ for (const brick of bricks) {
       }
     }
   }
-  totalFall += hasFall.size - 1; // we substract the desintaegrated brick
+  totalFall += hasFall.size - 1; // we substract the desintegrated brick
 }
 
 console.log(totalFall);
