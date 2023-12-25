@@ -79,7 +79,7 @@ for (let i = 0; i < hail.length; i++) {
 }
 
 function getRockVelocity(dim, sameVel) {
-  let tryVel = Array.from({length: 2001}, (_, i) => i - 1000); // i try -1000 to 1000
+  let tryVel = Array.from({length: 2001}, (_, i) => i - 1000); // try -1000 to 1000
   for (const [vel, positions] of sameVel[dim]) {
     const newTryVel = [];
     for (const tryV of tryVel) {
@@ -108,7 +108,7 @@ for (let i = 0; i < hail.length; i++) {
     rock.y = h1.y + time * (rock.vy - h1.vy);
     rock.z = h1.z + time * (rock.vz - h1.vz);
     const result = rock.x + rock.y + rock.z;
-    countOccResults.set(result, (countOccResults.get(result) ?? 0) + 1);
+    countOccResults.set(result, (countOccResults.get(result) ?? 1) + 1);
   }
 }
 
